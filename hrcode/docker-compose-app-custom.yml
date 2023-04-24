@@ -1,3 +1,29 @@
+version: "3.3"
+
+volumes:
+    moodle_nfs:
+      driver: local
+      driver_opts:
+        type: none 
+        o: bind
+        device: "/opt/users/${CLIENT}/moodle"
+    html_nfs:
+      driver: local
+      driver_opts:
+        type: none 
+        o: bind
+        device: "/opt/users/${CLIENT}/html"
+    mysql_nfs:
+      driver: local
+      driver_opts:
+        type: none 
+        o: bind
+        device: "/opt/users/${CLIENT}/mysql"
+
+networks:
+  traefik-external:
+    external: true
+
 services:
   zone-init:
     image: bash:5.1
