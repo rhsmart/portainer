@@ -1,0 +1,51 @@
+services:
+  zone-init:
+    image: bash:5.1
+    volumes:
+      - /opt/users:/opt/users
+    command: mkdir /opt/users/${CLIENT}
+
+  mysql:
+    image: mdsmart/mysql57-custom
+    expose:
+      - "3306"
+    volumes:
+      - mysql_nfs:/var/lib/mysql:Z
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CLIENT}12345
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=${CLIENT}
+      - MYSQL_USER=${CLIENT}
+      - MYSQL_PASSWORD=${CLIENT}12345
+      - LANG=pl_PL.UTF-8
+      - TZ=Europe/Warsaw
+      - IMAGE=${WERSJA}
+  php-fpm:
+    image: mdsmart/moodle_php-fpm:custom
+    volumes:
+      - html_nfs:/var/www:Z
+      - moodle_nfs:/var/moodledata:Z
+    depends_on:
+      - mysql
+    environment:
+      - FTPPASS=ZmienMnie1
+      - DBHOST=${MYSQLHOST}
+      - DBPASS=${CLIENT}12345
+      - DBUSER=${CLIENT}
+      - DBNAME=${CLIENT}
+      - TZ=Europe/Warsaw
+      - IMAGE=${WERSJA}
+ 
+  nginx:
+    image: mdsmart/moodle_nginx
+    depends_on: 
+      - php-fpm
+    expose:
+      - "80"
+    volumes:
+      - html_nfs:/var/www:Z
+      - moodle_nfs:/var/moodledata:Z
+    networks:
+      traefik-external:
+      default:
+
