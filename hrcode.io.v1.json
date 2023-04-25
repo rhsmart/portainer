@@ -26,19 +26,11 @@
                "label":"WERSJA",
                "description":"nazwa wcześniej eksportowanego obrazu środowiska",
                "select": [
-                         {
-                          "text": "Yes, I agree",
-                          "value": "Y",
-                          "default": true
-                         },
-                         {
-                          "text": "No, I disagree",
-                          "value": "N"
-                         },
-                         {
-                          "text": "Maybe",
-                          "value": "YN"
-                         }
+                           {
+                             "text": "hrcode-enterprise",
+                             "value": "hc-ent",
+                             "default": true
+                           }
                          ]
             },
             {
