@@ -75,7 +75,7 @@ services:
       - "traefik.enable=true"
       
       - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
-      - "traefik.http.routers.${CLIENT}.entrypoints=websecure"
+      - "traefik.http.routers.${CLIENT}.entrypoints=web"
       - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
       
       - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
