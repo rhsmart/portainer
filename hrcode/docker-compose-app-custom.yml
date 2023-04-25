@@ -25,12 +25,6 @@ networks:
     external: true
 
 services:
-  zone-init:
-    image: bash:5.1
-    volumes:
-      - /opt/users:/opt/users
-    command: mkdir /opt/users/${CLIENT}
-
   mysql:
     image: mdsmart/mysql57-custom
     expose:
