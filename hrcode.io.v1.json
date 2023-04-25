@@ -28,7 +28,7 @@
                "select": [
                            {
                              "text": "hrcode-enterprise",
-                             "value": "hc-ent",
+                             "value": "hrcode-enterprise",
                              "default": true
                            }
                          ]
