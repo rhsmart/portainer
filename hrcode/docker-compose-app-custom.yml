@@ -40,8 +40,8 @@ services:
       - LANG=pl_PL.UTF-8
       - TZ=Europe/Warsaw
       - IMAGE=${WERSJA}
-  healthcheck:
-    disable: true      
+    healthcheck:
+      disable: true      
     
   php-fpm:
     image: mdsmart/moodle_php-fpm:custom
