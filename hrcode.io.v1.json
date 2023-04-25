@@ -36,8 +36,14 @@
             {
                "name":"MYSQLHOST",
                "label":"MySQL Server",
-               "description":"Adres dedykowanego serwera MySQL - jeśli nie wiesz, zostaw domyślny",
-               "default":"mysql"
+               "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
+               "select": [
+                           {
+                             "text": "MySQL",
+                             "value": "mysql",
+                             "default": true
+                           }
+                         ]
             }
          ]
       }
