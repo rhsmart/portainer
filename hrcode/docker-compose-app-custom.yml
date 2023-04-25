@@ -71,4 +71,12 @@ services:
     networks:
       traefik-external:
       default:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
+      - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
+      - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
+      - "traefik.http.routers.${CLIENT}-tls.tls=true"
+      - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
+      - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"      
 
