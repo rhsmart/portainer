@@ -44,7 +44,7 @@ services:
       disable: true      
     
   php-fpm:
-    image: mdsmart/moodle_php-fpm:custom
+    image: rhsmart/moodle-php-fpm:8.0.28-custom
     volumes:
       - html_nfs:/var/www:Z
       - moodle_nfs:/var/moodledata:Z
