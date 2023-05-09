@@ -29,7 +29,7 @@
                            {
                              "text": "hrcode-enterprise",
                              "value": "hc-ent",
-                             "default": true
+                             "default": false
                            },
                                              {
                              "text": "hrcode-nowy-szablon",
