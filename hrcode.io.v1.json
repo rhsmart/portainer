@@ -30,6 +30,11 @@
                              "text": "hrcode-enterprise",
                              "value": "hc-ent",
                              "default": true
+                           },
+                                             {
+                             "text": "hrcode-nowy-szablon",
+                             "value": "hc-nowy_szablon",
+                             "default": true
                            }
                          ]
             },
