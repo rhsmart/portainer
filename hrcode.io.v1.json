@@ -27,14 +27,14 @@
                "description":"nazwa wcześniej eksportowanego obrazu środowiska",
                "select": [
                            {
+                             "text": "hrcode-master",
+                             "value": "hc-master",
+                             "default": true
+                           },                  
+                           {
                              "text": "hrcode-enterprise",
                              "value": "hc-ent",
                              "default": false
-                           },
-                                             {
-                             "text": "hrcode-nowy-szablon",
-                             "value": "hc-nowy_szablon",
-                             "default": true
                            }
                          ]
             },
