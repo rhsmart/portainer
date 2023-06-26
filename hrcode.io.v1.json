@@ -29,7 +29,7 @@
                            {
                              "text": "hrcode-master",
                              "value": "hc-master",
-                             "default": true
+                             "default": false
                            },  
                            {
                              "text": "hrcode-master_06062023",
@@ -37,9 +37,9 @@
                              "default": false
                            },                  
                            {
-                             "text": "hrcode-enterprise",
-                             "value": "hc-ent",
-                             "default": false
+                             "text": "hrcode-master_26062023",
+                             "value": "hc-master_26062023",
+                             "default": true
                            }
                          ]
             },
