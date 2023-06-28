@@ -24,7 +24,7 @@
             {
                "name":"WERSJA",
                "label":"WERSJA",
-               "description":"nazwa wcześniej eksportowanego obrazu środowiska",
+               "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
                "select": [
                            {
                              "text": "hrcode-master",
