@@ -48,6 +48,10 @@ services:
     volumes:
       - html_nfs:/var/www:Z
       - moodle_nfs:/var/moodledata:Z
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 1073741824       
     depends_on:
       - mysql
     environment:
