@@ -18,7 +18,7 @@
          "env":[
             {
                "name":"CLIENT",
-               "label":"CLIENT",
+               "label":"SUBDOMENA",
                "description":"nazwa pod która będzie dostępna apka."
             },
             {
