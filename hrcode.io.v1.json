@@ -54,6 +54,11 @@
                            {
                              "text": "hrcode-master_17072023",
                              "value": "hc-master_17072023",
+                             "default": false
+                           },              
+                           {
+                             "text": "hrcode-master_08082023",
+                             "value": "hc-master_08082023",
                              "default": true
                            }              
                          ]
