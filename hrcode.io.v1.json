@@ -64,6 +64,11 @@
                            {
                              "text": "hrcode-master_01092023",
                              "value": "hc-master_01092023",
+                             "default": false
+                           },   
+                           {
+                             "text": "hrcode-master_08092023",
+                             "value": "hc-master_08092023",
                              "default": true
                            }       
                          ]
