@@ -10,7 +10,7 @@
             "FACTORY"
          ],
          "platform":"linux",
-         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "logo":"https://nosilo.io/wp-content/uploads/2023/05/logo-noSilo-granat-1.png",
          "repository":{
             "url":"https://github.com/rhsmart/portainer",
             "stackfile":"nosilo/docker-compose.yml"
