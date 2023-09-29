@@ -83,16 +83,17 @@ services:
       labels:
         - "traefik.enable=true"
   
-        - "traefik.http.routers.${CLIENT}-factory.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.${CLIENT}-factory.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api/`)"
         - "traefik.http.routers.${CLIENT}-factory.entrypoints=web"
         - "traefik.http.routers.${CLIENT}-factory.middlewares=redirectscheme"
   
-        - "traefik.http.routers.${CLIENT}-factory-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.${CLIENT}-factory-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api/`)"
         - "traefik.http.routers.${CLIENT}-factory-tls.entrypoints=websecure"
         - "traefik.http.routers.${CLIENT}-factory-tls.service=${CLIENT}-factory-tls"
         - "traefik.http.routers.${CLIENT}-factory-tls.tls=true"
         - "traefik.http.routers.${CLIENT}-factory-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-factory-tls.middlewares=portainer-tls"
+        - "traefik.http.routers.${CLIENT}-factory-tls.priority=42"
         - "traefik.http.services.${CLIENT}-factory-tls.loadbalancer.server.port=8080"
         - "traefik.http.middlewares.${CLIENT}-factory-tls.chain.middlewares=tls-Header,http-compress"
           
@@ -128,16 +129,17 @@ services:
       labels:
         - "traefik.enable=true"
   
-        - "traefik.http.routers.${CLIENT}-trainings.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings`)"
+        - "traefik.http.routers.${CLIENT}-trainings.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings/`)"
         - "traefik.http.routers.${CLIENT}-trainings.entrypoints=web"
         - "traefik.http.routers.${CLIENT}-trainings.middlewares=redirectscheme"
   
-        - "traefik.http.routers.${CLIENT}-trainings-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings`)"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings/`)"
         - "traefik.http.routers.${CLIENT}-trainings-tls.entrypoints=websecure"
         - "traefik.http.routers.${CLIENT}-trainings-tls.service=${CLIENT}-trainings-tls"
         - "traefik.http.routers.${CLIENT}-trainings-tls.tls=true"
         - "traefik.http.routers.${CLIENT}-trainings-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-trainings-tls.middlewares=portainer-tls"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.priority=42"
         - "traefik.http.services.${CLIENT}-trainings-tls.loadbalancer.server.port=8080"
         - "traefik.http.middlewares.${CLIENT}-trainings-tls.chain.middlewares=tls-Header,http-compress"          
 
@@ -160,16 +162,17 @@ services:
       labels:
         - "traefik.enable=true"
         
-        - "traefik.http.routers.${CLIENT}-ui.rule=Host(`${CLIENT}.app.nosilo.io`)"
+        - "traefik.http.routers.${CLIENT}-ui.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/`)"
         - "traefik.http.routers.${CLIENT}-ui.entrypoints=web"
         - "traefik.http.routers.${CLIENT}-ui.middlewares=redirectscheme"
   
-        - "traefik.http.routers.${CLIENT}-ui-tls.rule=Host(`${CLIENT}.app.nosilo.io`)"
+        - "traefik.http.routers.${CLIENT}-ui-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/`)"
         - "traefik.http.routers.${CLIENT}-ui-tls.entrypoints=websecure"
         - "traefik.http.routers.${CLIENT}-ui-tls.service=${CLIENT}-ui-tls"
         - "traefik.http.routers.${CLIENT}-ui-tls.tls=true"
         - "traefik.http.routers.${CLIENT}-ui-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-ui-tls.middlewares=portainer-tls"
+        - "traefik.http.routers.${CLIENT}-ui-tls.priority=32"
         - "traefik.http.services.${CLIENT}-ui-tls.loadbalancer.server.port=8080"
         - "traefik.http.middlewares.${CLIENT}-ui-tls.chain.middlewares=tls-Header,http-compress"            
 
@@ -258,6 +261,7 @@ services:
           memory: "512m"
 
   cron:
+
     image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-cron-latest"
     volumes:
       - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
@@ -281,4 +285,4 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: "2G"           
+          memory: "2G"          
