@@ -1,0 +1,208 @@
+version: "3.3"
+
+networks:
+  default:
+
+services:
+  init:
+    image: rhsmart/nosilo-demo-init:latest
+    networks:
+      default:
+    environment:
+      MYSQL_ROOT_PASSWORD: "hasloROOT1"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      CLIENT: "${CLIENT}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/master-files/mysql-dump:/db-init
+      - /opt/master-files/uploads:/opt/master-files/uploads
+      - /opt/users:/opt/users
+      - /opt-mysql/users:/opt-mysql/users
+    deploy:
+      restart_policy:
+        condition: none
+        delay: 5s
+        max_attempts: 0
+      
+  mysql:
+    image: mysql:8.0.31
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci    
+    networks:
+      default:
+    environment:
+      MYSQL_ROOT_PASSWORD: "hasloROOT1"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+    volumes:
+      - /opt/master-files/my.cnf:/etc/my.cnf
+      - /opt-mysql/users/$CLIENT/mysql:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:alpine
+    networks:
+      default:
+    environment:
+      RABBITMQ_DEFAULT_USER: "nosilo"
+      RABBITMQ_DEFAULT_PASS: "1Qaz2Wsx"
+      RABBITMQ_DEFAULT_VHOST: "nosilo"
+    
+
+  factory:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-factory-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:      
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2G"
+
+  trainings:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-trainings-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2G"
+
+  ui:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-ui-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads/scorm:/var/www/html/dolineo5/frontend/dist/factory-ui/assets/scorm
+    environment:
+      TZ: "Europe/Warsaw"
+      CLIENT: "${CLIENT}"      
+    networks:
+      default:   
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+
+  messenger-trainings:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-messenger-trainings-latest"
+    networks:
+      default:    
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
+
+  messenger-factory:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-messenger-factory-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:        
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
+
+  messenger-mailer:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-messenger-mailer-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:        
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
