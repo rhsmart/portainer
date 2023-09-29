@@ -128,7 +128,7 @@ services:
       labels:
         - "traefik.enable=true"
   
-        - "traefik.http.routers.${CLIENT}-trainings.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.${CLIENT}-trainings.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings`)"
         - "traefik.http.routers.${CLIENT}-trainings.entrypoints=web"
         - "traefik.http.routers.${CLIENT}-trainings.middlewares=redirectscheme"
   
