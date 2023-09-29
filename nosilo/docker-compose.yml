@@ -256,3 +256,29 @@ services:
         limits:
           cpus: "0.5"
           memory: "512m"
+
+  cron:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-cron-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"     
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2G"           
