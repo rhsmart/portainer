@@ -3,11 +3,11 @@
    "templates":[
       {
          "type":3,
-         "title":"HRCODE - CUSTOM",
-         "description":"Scenariusze",
-         "note":"komplet - 3 elementy db/php/nginx",
+         "title":"NOSILO - CUSTOM",
+         "description":"Scenariusze z demo.nosilo.io",
+         "note":"stos, 9 elementów: init, factory, trainings, ui, messnenger-{factory,trainings,mailer}, mysql, rabbitmq",
          "categories":[
-            "MOODLE"
+            "FACTORY"
          ],
          "platform":"linux",
          "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
@@ -20,75 +20,6 @@
                "name":"CLIENT",
                "label":"SUBDOMENA",
                "description":"nazwa pod która będzie dostępna apka."
-            },
-            {
-               "name":"WERSJA",
-               "label":"WERSJA",
-               "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
-               "select": [
-                           {
-                             "text": "hrcode-master",
-                             "value": "hc-master",
-                             "default": false
-                           },  
-                           {
-                             "text": "hrcode-master_06062023",
-                             "value": "hc-master_06062023",
-                             "default": false
-                           },                  
-                           {
-                             "text": "hrcode-master_26062023",
-                             "value": "hc-master_26062023",
-                             "default": false
-                           },
-                           {
-                             "text": "hrcode-master_28062023",
-                             "value": "hc-master_28062023",
-                             "default": false
-                           }, 
-                           {
-                             "text": "hrcode-master_07072023",
-                             "value": "hc-master_07072023",
-                             "default": false
-                           },        
-                           {
-                             "text": "hrcode-master_17072023",
-                             "value": "hc-master_17072023",
-                             "default": false
-                           },              
-                           {
-                             "text": "hrcode-master_08082023",
-                             "value": "hc-master_08082023",
-                             "default": false
-                           },     
-                           {
-                             "text": "hrcode-master_01092023",
-                             "value": "hc-master_01092023",
-                             "default": false
-                           },   
-                           {
-                             "text": "hrcode-master_08092023",
-                             "value": "hc-master_08092023",
-                             "default": false
-                           },      
-                           {
-                             "text": "hrcode-master_18092023",
-                             "value": "hc-master_18092023",
-                             "default": true
-                           }       
-                         ]
-            },
-            {
-               "name":"MYSQLHOST",
-               "label":"MySQL Server",
-               "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
-               "select": [
-                           {
-                             "text": "MySQL",
-                             "value": "mysql",
-                             "default": true
-                           }
-                         ]
             }
          ]
       }
