@@ -2,6 +2,8 @@ version: "3.3"
 
 networks:
   default:
+  traefik-external:
+    external: true
 
 services:
   init:
@@ -55,7 +57,8 @@ services:
     volumes:
       - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
     networks:
-      default:      
+      default:
+      traefik-external:
     environment:
       TZ: "Europe/Warsaw"
       APP_DOMAIN: "${CLIENT}.app.nosilo.io"
@@ -100,6 +103,7 @@ services:
       - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
     networks:
       default:
+      traefik-external:
     environment:
       TZ: "Europe/Warsaw"
       APP_DOMAIN: "${CLIENT}.app.nosilo.io"
@@ -145,7 +149,8 @@ services:
       TZ: "Europe/Warsaw"
       CLIENT: "${CLIENT}"      
     networks:
-      default:   
+      default:
+      traefik-external:
 
     deploy:
       resources:
