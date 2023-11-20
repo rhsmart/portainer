@@ -1,0 +1,288 @@
+version: "3.3"
+
+networks:
+  default:
+  traefik-external:
+    external: true
+
+services:
+  init:
+    image: rhsmart/nosilo-demo-init:latest
+    networks:
+      default:
+    environment:
+      MYSQL_ROOT_PASSWORD: "hasloROOT1"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      CLIENT: "${CLIENT}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/master-files/mysql-dump:/db-init
+      - /opt/master-files/uploads:/opt/master-files/uploads
+      - /opt/users:/opt/users
+      - /opt-mysql/users:/opt-mysql/users
+    deploy:
+      restart_policy:
+        condition: none
+        delay: 5s
+        max_attempts: 0
+      
+  mysql:
+    image: mysql:8.0.31
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci    
+    networks:
+      default:
+    environment:
+      MYSQL_ROOT_PASSWORD: "hasloROOT1"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+    volumes:
+      - /opt/master-files/my.cnf:/etc/my.cnf
+      - /opt-mysql/users/$CLIENT/mysql:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:alpine
+    networks:
+      default:
+    environment:
+      RABBITMQ_DEFAULT_USER: "nosilo"
+      RABBITMQ_DEFAULT_PASS: "1Qaz2Wsx"
+      RABBITMQ_DEFAULT_VHOST: "nosilo"
+    
+
+  factory:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-new_skin-factory-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:
+      traefik-external:
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2G"
+      labels:
+        - "traefik.enable=true"
+  
+        - "traefik.http.routers.${CLIENT}-factory.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api/`)"
+        - "traefik.http.routers.${CLIENT}-factory.entrypoints=web"
+        - "traefik.http.routers.${CLIENT}-factory.middlewares=redirectscheme"
+  
+        - "traefik.http.routers.${CLIENT}-factory-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/api/`)"
+        - "traefik.http.routers.${CLIENT}-factory-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CLIENT}-factory-tls.service=${CLIENT}-factory-tls"
+        - "traefik.http.routers.${CLIENT}-factory-tls.tls=true"
+        - "traefik.http.routers.${CLIENT}-factory-tls.tls.certresolver=myresolver"
+        - "traefik.http.routers.${CLIENT}-factory-tls.middlewares=portainer-tls"
+        - "traefik.http.routers.${CLIENT}-factory-tls.priority=42"
+        - "traefik.http.services.${CLIENT}-factory-tls.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.${CLIENT}-factory-tls.chain.middlewares=tls-Header,http-compress"
+          
+
+  trainings:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-trainings-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:
+      traefik-external:
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2G"
+      labels:
+        - "traefik.enable=true"
+  
+        - "traefik.http.routers.${CLIENT}-trainings.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings/`)"
+        - "traefik.http.routers.${CLIENT}-trainings.entrypoints=web"
+        - "traefik.http.routers.${CLIENT}-trainings.middlewares=redirectscheme"
+  
+        - "traefik.http.routers.${CLIENT}-trainings-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/trainings/`)"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.service=${CLIENT}-trainings-tls"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.tls=true"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.tls.certresolver=myresolver"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.middlewares=portainer-tls"
+        - "traefik.http.routers.${CLIENT}-trainings-tls.priority=42"
+        - "traefik.http.services.${CLIENT}-trainings-tls.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.${CLIENT}-trainings-tls.chain.middlewares=tls-Header,http-compress"          
+
+  ui:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-new_skin-ui-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads/scorm:/var/www/html/dolineo5/frontend/dist/factory-ui/assets/scorm
+    environment:
+      TZ: "Europe/Warsaw"
+      CLIENT: "${CLIENT}"      
+    networks:
+      default:
+      traefik-external:
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+      labels:
+        - "traefik.enable=true"
+        
+        - "traefik.http.routers.${CLIENT}-ui.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/`)"
+        - "traefik.http.routers.${CLIENT}-ui.entrypoints=web"
+        - "traefik.http.routers.${CLIENT}-ui.middlewares=redirectscheme"
+  
+        - "traefik.http.routers.${CLIENT}-ui-tls.rule=Host(`${CLIENT}.app.nosilo.io`) && PathPrefix(`/`)"
+        - "traefik.http.routers.${CLIENT}-ui-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CLIENT}-ui-tls.service=${CLIENT}-ui-tls"
+        - "traefik.http.routers.${CLIENT}-ui-tls.tls=true"
+        - "traefik.http.routers.${CLIENT}-ui-tls.tls.certresolver=myresolver"
+        - "traefik.http.routers.${CLIENT}-ui-tls.middlewares=portainer-tls"
+        - "traefik.http.routers.${CLIENT}-ui-tls.priority=32"
+        - "traefik.http.services.${CLIENT}-ui-tls.loadbalancer.server.port=8080"
+        - "traefik.http.middlewares.${CLIENT}-ui-tls.chain.middlewares=tls-Header,http-compress"            
+
+  messenger-trainings:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-messenger-trainings-latest"
+    networks:
+      default:    
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
+
+  messenger-factory:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-messenger-factory-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:        
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
+
+  messenger-mailer:
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-messenger-mailer-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    networks:
+      default:        
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
+
+  cron:
+
+    image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-cron-latest"
+    volumes:
+      - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
+    environment:
+      TZ: "Europe/Warsaw"
+      APP_DOMAIN: "${CLIENT}.app.nosilo.io"
+      APP_ENV: "prod"
+      MYSQL_DATABASE: "nosilo"
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "nosilo"
+      MYSQL_PASSWORD: "1Qaz2Wsx"
+      MAILER_USER: "${MAILER_USER}"
+      MAILER_PASSWORD: "${MAILER_PASSWORD}"
+      MAILER_MAIL_FROM: "{MAILER_MAIL_FROM}"
+      MAILER_HOST: "${MAILER_HOST}"
+      MQ_HOST_PORT: "rabbitmq:5672"
+      MQ_USER: "nosilo"
+      MQ_PASS: "1Qaz2Wsx"
+      MQ_VHOST: "nosilo"     
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2G"          
