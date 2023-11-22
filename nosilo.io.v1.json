@@ -22,28 +22,6 @@
                "description":"nazwa pod która będzie dostępna apka."
             }
          ]
-      },
-      {
-         "type":2,
-         "title":"NOSILO - CUSTOM - NEWSKIN",
-         "description":"Scenariusze z demo.nosilo.io",
-         "note":"stos, 9 elementów: init, factory, trainings, ui, messnenger-{factory,trainings,mailer}, mysql, rabbitmq",
-         "categories":[
-            "FACTORY"
-         ],
-         "platform":"linux",
-         "logo":"https://nosilo.io/wp-content/uploads/2023/05/logo-noSilo-granat-1.png",
-         "repository":{
-            "url":"https://github.com/rhsmart/portainer",
-            "stackfile":"nosilo/docker-compose-new-skin.yml"
-         },
-         "env":[
-            {
-               "name":"CLIENT",
-               "label":"SUBDOMENA",
-               "description":"nazwa pod która będzie dostępna apka."
-            }
-         ]
-      }      
+      }     
    ]
 }
