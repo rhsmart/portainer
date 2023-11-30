@@ -32,6 +32,10 @@
                   "default": true
                 },
                 { 
+                  "text": "- - - - - - - - - - -",
+                  "value": "N"
+                },                 
+                { 
                   "text": "TAK, jestem świadomy konsekwencji",
                   "value": "Y"
                 }
