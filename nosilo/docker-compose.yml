@@ -16,6 +16,7 @@ services:
       MYSQL_USER: "nosilo"
       MYSQL_PASSWORD: "1Qaz2Wsx"
       CLIENT: "${CLIENT}"
+      REMOVE_CONFIRM: "${REMOVE_CONFIRM}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/master-files/mysql-dump:/db-init
