@@ -27,16 +27,12 @@
               "description": "Usuwa dane jeżeli taka strefa istaniała / istnieje",
               "select": [
                 { 
-                  "text": "Nie, nie chce usuwać",
+                  "text": "Nie, nie chcę usuwać",
                   "value": "N",
                   "default": true
                 },
                 { 
-                  "text": "- - - - - - - - - - -",
-                  "value": "N"
-                },                 
-                { 
-                  "text": "TAK, jestem świadomy konsekwencji",
+                  "text": "TAK, jestem świadomy tego co robię",
                   "value": "Y"
                 }
               ]
