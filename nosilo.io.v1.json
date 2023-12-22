@@ -20,21 +20,7 @@
                "name":"CLIENT",
                "label":"SUBDOMENA",
                "description":"nazwa pod która będzie dostępna apka."
-            },
-            { 
-              "name": "REMOVE_CONFIRM",
-              "label": "Usunąć poprzednie dane?",
-              "description": "Usuwa dane jeżeli taka strefa istaniała / istnieje",
-              "select": [
-                { 
-                  "text": "Nie, nie chcę usuwać",
-                  "value": "N",
-                  "default": true
-                },
-                { 
-                  "text": "TAK, jestem świadomy tego co robię",
-                  "value": "Y"
-                }
+            }
               ]
             }    
          ]
