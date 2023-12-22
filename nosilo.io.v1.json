@@ -21,9 +21,7 @@
                "label":"SUBDOMENA",
                "description":"nazwa pod która będzie dostępna apka."
             }
-              ]
-            }    
          ]
-      }     
+      }    
    ]
-}
+} 
