@@ -56,6 +56,62 @@
                          ]
             }
          ]
+      },
+      {
+         "type":3,
+         "title":"HRCODE + CRON - CUSTOM",
+         "description":"Scenariusze",
+         "note":"komplet - 4 elementy db/php/nginx/cron",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"hrcode/docker-compose-app-cron-custom.yml"
+         },
+         "env":[
+            {
+               "name":"CLIENT",
+               "label":"SUBDOMENA",
+               "description":"nazwa pod która będzie dostępna apka."
+            },
+            {
+               "name":"WERSJA",
+               "label":"WERSJA",
+               "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
+               "select": [
+                           {
+                             "text": "hrcode-master_10112023",
+                             "value": "hc-master_10112023",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_16112023",
+                             "value": "hc-master_16112023",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_22112023",
+                             "value": "hc-master_22112023",
+                             "default": true
+                           }       
+                         ]
+            },
+            {
+               "name":"MYSQLHOST",
+               "label":"MySQL Server",
+               "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
+               "select": [
+                           {
+                             "text": "MySQL",
+                             "value": "mysql",
+                             "default": true
+                           }
+                         ]
+            }
+         ]
       }
    ]
 }
