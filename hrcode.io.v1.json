@@ -100,6 +100,11 @@
                            {
                              "text": "hrcode-master_22112023",
                              "value": "hc-master_22112023",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_23012024",
+                             "value": "hc-master_23012024",
                              "default": true
                            }       
                          ]
