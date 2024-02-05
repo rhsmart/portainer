@@ -30,8 +30,8 @@ services:
         max_attempts: 0
       
   mysql:
-    image: mysql:8.0.31
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci    
+    image: rhsmart/nosilo-mysql:8.0.31
+    #command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci    
     networks:
       default:
     environment:
