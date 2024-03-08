@@ -64,8 +64,13 @@
                            {
                              "text": "hrcode-master_01032024",
                              "value": "hc-master_01032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_08032024",
+                             "value": "hc-master_08032024",
                              "default": true
-                           } 
+                           }
                          ]
             },
             {
@@ -145,8 +150,13 @@
                             {
                              "text": "hrcode-master_01032024",
                              "value": "hc-master_01032024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_08032024",
+                             "value": "hc-master_08032024",
                              "default": true
-                           } 
+                           }
                          ]
             },
             {
