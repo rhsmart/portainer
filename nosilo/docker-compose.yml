@@ -220,7 +220,8 @@ services:
     volumes:
       - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
     networks:
-      default:        
+      default:
+      traefik-external:
     environment:
       TZ: "Europe/Warsaw"
       APP_DOMAIN: "${CLIENT}.app.nosilo.io"
