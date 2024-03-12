@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.4"
 
 networks:
   default:
@@ -16,7 +16,6 @@ services:
       MYSQL_USER: "nosilo"
       MYSQL_PASSWORD: "1Qaz2Wsx"
       CLIENT: "${CLIENT}"
-      REMOVE_CONFIRM: "${REMOVE_CONFIRM}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/master-files/mysql-dump:/db-init
@@ -42,7 +41,7 @@ services:
     volumes:
       - /opt/master-files/my.cnf:/etc/my.cnf
       - /opt-mysql/users/$CLIENT/mysql:/var/lib/mysql
-
+     
   rabbitmq:
     image: rabbitmq:alpine
     networks:
@@ -81,6 +80,10 @@ services:
         limits:
           cpus: "1"
           memory: "2G"
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
       labels:
         - "traefik.enable=true"
   
@@ -127,6 +130,10 @@ services:
         limits:
           cpus: "1"
           memory: "2G"
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
       labels:
         - "traefik.enable=true"
   
@@ -159,6 +166,10 @@ services:
         limits:
           cpus: "0.5"
           memory: "512M"
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
       labels:
         - "traefik.enable=true"
         
@@ -284,7 +295,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: "2G"   
+          memory: "2G"
 
   redis:
     image: redis:7.2.4
@@ -292,4 +303,5 @@ services:
       mode: replicated
       replicas: 1
       placement:
-        constraints: [node.role == manager]          
+        constraints: [node.role == manager] 
+     
