@@ -154,7 +154,6 @@ services:
     networks:
       default:
       traefik-external:
-
     deploy:
       resources:
         limits:
@@ -262,7 +261,6 @@ services:
           memory: "512m"
 
   cron:
-
     image: "625593481743.dkr.ecr.eu-west-1.amazonaws.com/demo-nosilo:demo-cron-latest"
     volumes:
       - /opt/users/$CLIENT/uploads:/var/www/html/dolineo5/backend/var/uploads
@@ -286,4 +284,12 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: "2G"          
+          memory: "2G"   
+
+  redis:
+    image: redis:7.2.4
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]          
