@@ -22,6 +22,7 @@ services:
       - /opt/master-files/uploads:/opt/master-files/uploads
       - /opt/users:/opt/users
       - /opt-mysql/users:/opt-mysql/users
+      - /opt/docker/traefik/dynamic:/opt/docker/traefik/dynamic
     deploy:
       restart_policy:
         condition: none
