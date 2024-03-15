@@ -42,6 +42,33 @@
                "name":"CLIENT",
                "label":"SUBDOMENA",
                "description":"nazwa pod która będzie dostępna apka."
+            },
+            {
+               "name":"SESSION_TIME",
+               "label":"DŁUGOŚĆ SESJI",
+               "description":"Czas po którym strefa zostanie uśpona",
+               "select": [
+                           {
+                             "text": "30m",
+                             "value": "30m",
+                             "default": true
+                           },
+                           {
+                             "text": "60m",
+                             "value": "60m",
+                             "default": false
+                           },
+                           {
+                             "text": "90m",
+                             "value": "90m",
+                             "default": false
+                           },
+                           {
+                             "text": "120m",
+                             "value": "120m",
+                             "default": false
+                           }
+               ]
             }
          ]
       }      
