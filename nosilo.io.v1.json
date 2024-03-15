@@ -3,8 +3,8 @@
    "templates":[
       {
          "type":2,
-         "title":"NOSILO - CUSTOM",
-         "description":"Scenariusze z demo.nosilo.io",
+         "title":"NOSILO",
+         "description":"Scenariusze z master.app.nosilo.io",
          "note":"stos, 9 elementów: init, factory, trainings, ui, messnenger-{factory,trainings,mailer}, mysql, rabbitmq",
          "categories":[
             "FACTORY"
@@ -25,9 +25,9 @@
       },
       {
          "type":2,
-         "title":"NOSILO - CUSTOM - SABLIER (default: 30m)",
-         "description":"Scenariusze z demo.nosilo.io. Zatrzymanie strefy po zdefiniownym czasie. Uruchmienie przez wywołanie strefy w przeglądarce",
-         "note":"stos, 9 elementów: init, factory, trainings, ui, messnenger-{factory,trainings,mailer}, mysql, rabbitmq",
+         "title":"NOSILO - SABLIER (default: 30m)",
+         "description":"Scenariusze z master.app.nosilo.io. Zatrzymanie strefy po zdefiniownym czasie. Ponowne uruchmienie przez wywołanie URL w przeglądarce.",
+         "note":"stos, 11 elementów: init, factory, trainings, ui, messnenger-{factory,trainings,mailer}, cron, mysql, rabbitmq, redis; Integracja z SABLIER",
          "categories":[
             "FACTORY"
          ],
