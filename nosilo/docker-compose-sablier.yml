@@ -1,10 +1,5 @@
 version: "3.4"
 
-networks:
-  default:
-  traefik-external:
-    external: true
-
 x-common-app-env: &app-env
   TZ: "Europe/Warsaw"
   APP_DOMAIN: "${CLIENT}.app.nosilo.io"
@@ -281,7 +276,12 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
         - "sablier.enable=true"
-        - "sablier.group=${CLIENT}"          
+        - "sablier.group=${CLIENT}"  
+
+networks:
+  default:
+  traefik-external:
+    external: true        
        
         
 
