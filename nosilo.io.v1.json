@@ -25,7 +25,7 @@
       },
       {
          "type":2,
-         "title":"NOSILO - SABLIER (default: 30m)",
+         "title":"NOSILO - SABLIER (default: 30 min)",
          "description":"Scenariusze z master.app.nosilo.io. Zatrzymanie strefy po zdefiniownym czasie. Ponowne uruchmienie przez wywołanie URL w przeglądarce.",
          "note":"stos, 11 elementów: init, factory, trainings, ui, messnenger-{factory,trainings,mailer}, cron, mysql, rabbitmq, redis; Integracja z SABLIER",
          "categories":[
