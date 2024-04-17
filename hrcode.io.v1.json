@@ -25,9 +25,7 @@
                "name":"WERSJA",
                "label":"WERSJA",
                "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
-               "select": [
-                          
-                          
+               "select": [ 
                            {
                              "text": "hrcode-master_23012024",
                              "value": "hc-master_23012024",
@@ -109,8 +107,6 @@
                "label":"WERSJA",
                "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
                "select": [
-                        
-                        
                            {
                              "text": "hrcode-master_23012024",
                              "value": "hc-master_23012024",
@@ -145,7 +141,7 @@
                              "text": "hrcode-master_29032024",
                              "value": "hc-master_29032024",
                              "default": false
-                           }
+                           },
                           {
                              "text": "hrcode-master_17042024",
                              "value": "hc-master_17042024",
