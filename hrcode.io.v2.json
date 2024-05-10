@@ -2,7 +2,7 @@
    "version":"2",
    "templates":[
       {
-         "type":3,
+         "type":2,
          "title":"HRCODE - CUSTOM",
          "description":"Scenariusze",
          "note":"komplet - 3 elementy db/php/nginx",
@@ -93,7 +93,7 @@
          ]
       },
       {
-         "type":3,
+         "type":2,
          "title":"HRCODE + CRON - CUSTOM",
          "description":"Scenariusze",
          "note":"komplet - 4 elementy db/php/nginx/cron",
