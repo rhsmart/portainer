@@ -1,0 +1,93 @@
+version: "3.3"
+
+volumes:
+    moodle_nfs:
+      driver: local
+      driver_opts:
+        type: none 
+        o: bind
+        device: "/opt/users/${CLIENT}/moodle"
+    html_nfs:
+      driver: local
+      driver_opts:
+        type: none 
+        o: bind
+        device: "/opt/users/${CLIENT}/html"
+    mysql_nfs:
+      driver: local
+      driver_opts:
+        type: none 
+        o: bind
+        device: "/opt-ssd/users/${CLIENT}/mysql"
+
+networks:
+  traefik-external:
+    external: true
+
+services:
+  mysql:
+    image: mdsmart/mysql57-custom
+    expose:
+      - "3306"
+    volumes:
+      - mysql_nfs:/var/lib/mysql:Z
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CLIENT}12345
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=${CLIENT}
+      - MYSQL_USER=${CLIENT}
+      - MYSQL_PASSWORD=${CLIENT}12345
+      - LANG=pl_PL.UTF-8
+      - TZ=Europe/Warsaw
+      - IMAGE=${WERSJA}
+    healthcheck:
+      disable: true      
+    
+  php-fpm:
+    image: rhsmart/moodle-php-fpm:8.0.28-custom
+    volumes:
+      - html_nfs:/var/www:Z
+      - moodle_nfs:/var/moodledata:Z
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 1073741824       
+    depends_on:
+      - mysql
+    environment:
+      - FTPPASS=ZmienMnie1
+      - DBHOST=${MYSQLHOST}
+      - DBPASS=${CLIENT}12345
+      - DBUSER=${CLIENT}
+      - DBNAME=${CLIENT}
+      - TZ=Europe/Warsaw
+      - IMAGE=${WERSJA}
+ 
+  nginx:
+    image: mdsmart/moodle_nginx
+    depends_on: 
+      - php-fpm
+    expose:
+      - "80"
+    volumes:
+      - html_nfs:/var/www:Z
+      - moodle_nfs:/var/moodledata:Z
+    networks:
+      traefik-external:
+      default:
+    labels:
+      - "traefik.enable=true"
+      
+      - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
+      - "traefik.http.routers.${CLIENT}.entrypoints=web"
+      - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
+      
+      - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
+      - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
+      - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
+      - "traefik.http.routers.${CLIENT}-tls.tls=true"
+      - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
+      - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
+      - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress"
+

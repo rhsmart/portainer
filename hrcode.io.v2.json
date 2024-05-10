@@ -1,0 +1,187 @@
+{
+   "version":"2",
+   "templates":[
+      {
+         "type":3,
+         "title":"HRCODE - CUSTOM",
+         "description":"Scenariusze",
+         "note":"komplet - 3 elementy db/php/nginx",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"hrcode/docker-compose-app-custom-v2.yml"
+         },
+         "env":[
+            {
+               "name":"CLIENT",
+               "label":"SUBDOMENA",
+               "description":"nazwa pod która będzie dostępna apka."
+            },
+            {
+               "name":"WERSJA",
+               "label":"WERSJA",
+               "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
+               "select": [ 
+                           {
+                             "text": "hrcode-master_23012024",
+                             "value": "hc-master_23012024",
+                             "default": false
+                           },    
+                           {
+                             "text": "hrcode-master_01022024",
+                             "value": "hc-master_01022024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_15022024",
+                             "value": "hc-master_15022024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_19022024",
+                             "value": "hc-master_19022024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_01032024",
+                             "value": "hc-master_01032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_08032024",
+                             "value": "hc-master_08032024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_29032024",
+                             "value": "hc-master_29032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_17042024",
+                             "value": "hc-master_17042024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_22042024",
+                             "value": "hc-master_22042024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_08052024",
+                             "value": "hc-master_08052024",
+                             "default": true
+                           }
+                         ]
+            },
+            {
+               "name":"MYSQLHOST",
+               "label":"MySQL Server",
+               "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
+               "select": [
+                           {
+                             "text": "MySQL",
+                             "value": "mysql",
+                             "default": true
+                           }
+                         ]
+            }
+         ]
+      },
+      {
+         "type":3,
+         "title":"HRCODE + CRON - CUSTOM",
+         "description":"Scenariusze",
+         "note":"komplet - 4 elementy db/php/nginx/cron",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"hrcode/docker-compose-app-cron-custom.yml"
+         },
+         "env":[
+            {
+               "name":"CLIENT",
+               "label":"SUBDOMENA",
+               "description":"nazwa pod która będzie dostępna apka."
+            },
+            {
+               "name":"WERSJA",
+               "label":"WERSJA",
+               "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
+               "select": [
+                           {
+                             "text": "hrcode-master_23012024",
+                             "value": "hc-master_23012024",
+                             "default": false
+                           },    
+                           {
+                             "text": "hrcode-master_01022024",
+                             "value": "hc-master_01022024",
+                             "default": false
+                           }, 
+                           {
+                             "text": "hrcode-master_15022024",
+                             "value": "hc-master_15022024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_19022024",
+                             "value": "hc-master_19022024",
+                             "default": false
+                           },
+                            {
+                             "text": "hrcode-master_01032024",
+                             "value": "hc-master_01032024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_08032024",
+                             "value": "hc-master_08032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_29032024",
+                             "value": "hc-master_29032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_17042024",
+                             "value": "hc-master_17042024",
+                             "default": false
+                           },
+                           {
+                             "text": "hrcode-master_22042024",
+                             "value": "hc-master_22042024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_08052024",
+                             "value": "hc-master_08052024",
+                             "default": true
+                           }
+                         ]
+            },
+            {
+               "name":"MYSQLHOST",
+               "label":"MySQL Server",
+               "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
+               "select": [
+                           {
+                             "text": "MySQL",
+                             "value": "mysql",
+                             "default": true
+                           }
+                         ]
+            }
+         ]
+      }
+   ]
+}
