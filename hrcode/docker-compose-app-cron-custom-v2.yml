@@ -1,24 +1,4 @@
-version: "3.3"
-
-volumes:
-    moodle_nfs:
-      driver: local
-      driver_opts:
-        type: none 
-        o: bind
-        device: "/opt/users/${CLIENT}/moodle"
-    html_nfs:
-      driver: local
-      driver_opts:
-        type: none 
-        o: bind
-        device: "/opt/users/${CLIENT}/html"
-    mysql_nfs:
-      driver: local
-      driver_opts:
-        type: none 
-        o: bind
-        device: "/opt-ssd/users/${CLIENT}/mysql"
+version: "3.9"
 
 networks:
   traefik-external:
@@ -30,7 +10,7 @@ services:
     expose:
       - "3306"
     volumes:
-      - mysql_nfs:/var/lib/mysql:Z
+      - /opt-ssd/users/${CLIENT}/mysql:/var/lib/mysql:Z
     environment:
       - MYSQL_ROOT_PASSWORD=${CLIENT}12345
       - MYSQL_ROOT_HOST=%
@@ -42,16 +22,19 @@ services:
       - IMAGE=${WERSJA}
     healthcheck:
       disable: true      
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
     
   php-fpm:
     image: rhsmart/moodle-php-fpm:8.0.28-custom
     volumes:
-      - html_nfs:/var/www:Z
-      - moodle_nfs:/var/moodledata:Z
-      - type: tmpfs
-        target: /dev/shm
-        tmpfs:
-          size: 1073741824       
+      - /opt/users/${CLIENT}/html:/var/www:Z
+      - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
+    shm_size: "1gb"
     depends_on:
       - mysql
     environment:
@@ -62,44 +45,57 @@ services:
       - DBNAME=${CLIENT}
       - TZ=Europe/Warsaw
       - IMAGE=${WERSJA}
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
  
   nginx:
-    image: mdsmart/moodle_nginx
+    image: rhsmart/moodle-fpm-nginx:1.23.2
     depends_on: 
       - php-fpm
     expose:
       - "80"
     volumes:
-      - html_nfs:/var/www:Z
-      - moodle_nfs:/var/moodledata:Z
+      - /opt/users/${CLIENT}/html:/var/www:Z
+      - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
     networks:
       traefik-external:
       default:
-    labels:
-      - "traefik.enable=true"
-      
-      - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
-      - "traefik.http.routers.${CLIENT}.entrypoints=web"
-      - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
-      
-      - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
-      - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
-      - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
-      - "traefik.http.routers.${CLIENT}-tls.tls=true"
-      - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
-      - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
-      - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
-      - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress"
+    healthcheck:
+      test: curl --fail http://localhost/login/index.php || exit 1
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s      
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
+        
+        - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
+        - "traefik.http.routers.${CLIENT}.entrypoints=web"
+        - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
+        
+        - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
+        - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
+        - "traefik.http.routers.${CLIENT}-tls.tls=true"
+        - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
+        - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
+        - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
+        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier@file"
 
   php-cron:
     image: rhsmart/moodle-php-cron:8.0.28
     volumes:
-      - html_nfs:/var/www:Z
-      - moodle_nfs:/var/moodledata:Z
-      - type: tmpfs
-        target: /dev/shm
-        tmpfs:
-          size: 1073741824       
+      - /opt/users/${CLIENT}/html:/var/www:Z
+      - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
+    shm_size: "1gb"
     depends_on:
       - mysql
     environment:
@@ -108,4 +104,10 @@ services:
       - DBUSER=${CLIENT}
       - DBNAME=${CLIENT}
       - TZ=Europe/Warsaw
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
 
