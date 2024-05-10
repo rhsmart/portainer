@@ -53,7 +53,7 @@ services:
         - "sablier.group=${CLIENT}"
  
   nginx:
-    image: mdsmart/moodle_nginx
+    image: rhsmart/moodle-fpm-nginx:1.23.2
     depends_on: 
       - php-fpm
     expose:
@@ -64,6 +64,12 @@ services:
     networks:
       traefik-external:
       default:
+    healthcheck:
+      test: curl --fail http://localhost/login/index.php || exit 1
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s      
     deploy:
       labels:
         - "traefik.enable=true"
