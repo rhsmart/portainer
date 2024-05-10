@@ -104,7 +104,7 @@
          "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
          "repository":{
             "url":"https://github.com/rhsmart/portainer",
-            "stackfile":"hrcode/docker-compose-app-cron-custom.yml"
+            "stackfile":"hrcode/docker-compose-app-cron-custom-v2.yml"
          },
          "env":[
             {
