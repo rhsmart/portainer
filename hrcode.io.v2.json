@@ -93,7 +93,7 @@
             {
                "name":"MAIL_TO",
                "label":"MAIL_TO",
-               "description":"Odbiorca, który dostanie maila o zawiedzeniu strefy."
+               "description":"Odbiorca, który dostanie maila o zawieszeniu strefy."
             }            
          ]
       },
@@ -189,7 +189,7 @@
             {
                "name":"MAIL_TO",
                "label":"MAIL_TO",
-               "description":"Odbiorca, który dostanie maila o zawiedzeniu strefy."
+               "description":"Odbiorca, który dostanie maila o zawieszeniu strefy."
             }             
          ]
       }
