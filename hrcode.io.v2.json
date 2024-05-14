@@ -89,7 +89,12 @@
                              "default": true
                            }
                          ]
-            }
+            },
+            {
+               "name":"MAIL_TO",
+               "label":"MAIL_TO",
+               "description":"Odbiorca, który dostanie maila o zawiedzeniu strefy."
+            }            
          ]
       },
       {
@@ -180,7 +185,12 @@
                              "default": true
                            }
                          ]
-            }
+            },
+            {
+               "name":"MAIL_TO",
+               "label":"MAIL_TO",
+               "description":"Odbiorca, który dostanie maila o zawiedzeniu strefy."
+            }             
          ]
       }
    ]
