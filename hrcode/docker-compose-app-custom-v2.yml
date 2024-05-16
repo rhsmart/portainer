@@ -30,14 +30,16 @@ services:
         - "sablier.group=${CLIENT}"
     
   php-fpm:
-    image: rhsmart/moodle-php-fpm:8.0.28-custom
+    image: docker.io/rhsmart/moodle-php-fpm:8.0.28-test
     volumes:
-      - /opt/users/${CLIENT}/html:/var/www:Z
-      - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
+      - /opt/users/${CLIENT}/html:/var/www
+      - /opt/users/${CLIENT}/moodle:/var/moodledata
+      - /opt/users/${CLIENT}/mail:/opt/mail
     shm_size: "1gb"
     depends_on:
       - mysql
     environment:
+      - CLIENT=${CLIENT}
       - FTPPASS=ZmienMnie1
       - DBHOST=${MYSQLHOST}
       - DBPASS=${CLIENT}12345
@@ -45,6 +47,7 @@ services:
       - DBNAME=${CLIENT}
       - TZ=Europe/Warsaw
       - IMAGE=${WERSJA}
+      - MAIL_TO=${MAIL_TO}
     deploy:
       labels:
         - "traefik.enable=true"
