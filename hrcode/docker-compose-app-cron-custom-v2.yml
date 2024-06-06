@@ -30,7 +30,7 @@ services:
         - "sablier.group=${CLIENT}"
     
   php-fpm:
-    image: rhsmart/moodle-php-fpm:8.0.28-custom
+    image: rhsmart/moodle-php-fpm:8.0.28-demo
     volumes:
       - /opt/users/${CLIENT}/html:/var/www:Z
       - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
