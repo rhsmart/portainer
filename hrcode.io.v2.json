@@ -118,16 +118,6 @@
                "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
                "select": [
                            {
-                             "text": "hrcode-master_23012024",
-                             "value": "hc-master_23012024",
-                             "default": false
-                           },    
-                           {
-                             "text": "hrcode-master_01022024",
-                             "value": "hc-master_01022024",
-                             "default": false
-                           }, 
-                           {
                              "text": "hrcode-master_15022024",
                              "value": "hc-master_15022024",
                              "default": false
@@ -137,17 +127,17 @@
                              "value": "hc-master_19022024",
                              "default": false
                            },
-                            {
+                           {
                              "text": "hrcode-master_01032024",
                              "value": "hc-master_01032024",
                              "default": false
                            },
-                           {
+                          {
                              "text": "hrcode-master_08032024",
                              "value": "hc-master_08032024",
                              "default": false
                            },
-                          {
+                         {
                              "text": "hrcode-master_29032024",
                              "value": "hc-master_29032024",
                              "default": false
@@ -157,7 +147,7 @@
                              "value": "hc-master_17042024",
                              "default": false
                            },
-                           {
+                          {
                              "text": "hrcode-master_22042024",
                              "value": "hc-master_22042024",
                              "default": false
@@ -165,6 +155,11 @@
                          {
                              "text": "hrcode-master_08052024",
                              "value": "hc-master_08052024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_15052024",
+                             "value": "hc-master_15052024",
                              "default": true
                            }
                          ]
