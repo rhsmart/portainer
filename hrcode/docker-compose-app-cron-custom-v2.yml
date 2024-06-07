@@ -31,6 +31,7 @@ services:
     
   php-fpm:
     image: docker.io/rhsmart/moodle-php-fpm:8.0.28-demo
+    volumes:
       - type: tmpfs
         target: /dev/shm    
       - /opt/users/${CLIENT}/html:/var/www
