@@ -100,9 +100,13 @@ services:
   php-cron:
     image: rhsmart/moodle-php-cron:8.0.28
     volumes:
+      - type: tmpfs
+        target: /dev/shm    
       - /opt/users/${CLIENT}/html:/var/www:Z
       - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
-    shm_size: "1gb"
+    tmpfs:
+      - /tmp:size=512M      
+    shm_size: "512M"
     depends_on:
       - mysql
     environment:
@@ -116,5 +120,5 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
         - "sablier.enable=true"
-        - "sablier.group=${CLIENT}"
+        - "sablier.group=${CLIENT}" 
 
