@@ -10,7 +10,7 @@
             "MOODLE"
          ],
          "platform":"linux",
-         "logo":"https://github.com/rhsmart/portainer/blob/ba84079a5ebbc0a3f8e02e5a86947da74c271948/hrcode/hrcode-logo.png",
+         "logo":"https://raw.githubusercontent.com/rhsmart/portainer/main/hrcode/hrcode-logo.png",
          "repository":{
             "url":"https://github.com/rhsmart/portainer",
             "stackfile":"hrcode/docker-compose-app-prod.yml"
