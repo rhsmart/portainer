@@ -1,0 +1,81 @@
+version: "3.9"
+
+services:
+  php-fpm:
+    image: rhsmart/moodle-php-fpm:8.0.28-prod
+    volumes:
+      - type: tmpfs
+        target: /dev/shm    
+      - /opt/users/${CLIENT}/www:/var/www
+      - /opt/users/${CLIENT}/moodledata:/var/moodledata
+    tmpfs:
+      - /tmp:size=512M      
+    networks:
+      default:
+  
+  nginx:
+    image: rhsmart/moodle-fpm-nginx:1.23.2
+    volumes:
+      - /opt/users/${CLIENT}/www:/var/www
+      - /opt/users/${CLIENT}/moodledata:/var/moodledata
+    networks:
+      default:
+      traefik-external:
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        
+        - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
+        - "traefik.http.routers.${CLIENT}.entrypoints=web"
+        - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
+        
+        - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
+        - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
+        - "traefik.http.routers.${CLIENT}-tls.tls=true"
+        - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
+        - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
+        - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
+        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress"        
+
+  php-cron:
+    image: rhsmart/moodle-php-cron:8.0.28
+    volumes:
+      - type: tmpfs
+        target: /dev/shm    
+      - /opt/users/${CLIENT}/www:/var/www
+      - /opt/users/${CLIENT}/moodledata:/var/moodledata
+    tmpfs:
+      - /tmp:size=512M      
+    environment:
+      DBHOST: "mysql"
+      DBPASS: "aCahdem9chei0wee"
+      DBUSER: "${CLIENT}"
+      DBNAME: "${CLIENT}"
+      TZ: "Europe/Warsaw"
+
+  mysql:
+    image: mariadb:10
+    volumes:
+      - /opt/users/${CLIENT}/mysql:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/smart.cnf
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/users/${CLIENT}/dumps:/dumps
+    environment:
+      MARIADB_ROOT_PASSWORD: "hasloROOT1"
+      MARIADB_ROOT_HOST: "%"
+      MARIADB_USER: "${CLIENT}"
+      MARIADB_PASSWORD: "aCahdem9chei0wee"
+      MARIADB_DATABASE: "${CLIENT}"
+      LANG: "pl_PL.UTF-8"
+      TZ: "Europe/Warsaw"
+    networks:
+      default:
+
+networks:
+  default:
+  traefik-external:
+    driver: overlay
+    attachable: true
+    external: true
