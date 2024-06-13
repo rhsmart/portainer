@@ -39,7 +39,7 @@ services:
     image: mariadb:10
     volumes:
       - /opt/users/${CLIENT}/mysql:/var/lib/mysql
-      - ./my.cnf:/etc/mysql/conf.d/smart.cnf
+      - /opt/users/${CLIENT}/my.cnf:/etc/mysql/conf.d/smart.cnf
       - /etc/localtime:/etc/localtime:ro
       - /opt/users/${CLIENT}/dumps:/dumps
     environment:
