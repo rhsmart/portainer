@@ -32,7 +32,7 @@
             "MOODLE"
          ],
          "platform":"linux",
-         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "logo":"https://raw.githubusercontent.com/rhsmart/portainer/main/hrcode/hrcode-logo.png",
          "repository":{
             "url":"https://github.com/rhsmart/portainer",
             "stackfile":"hrcode/docker-compose-app-cron-prod.yml"
