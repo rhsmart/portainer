@@ -1,0 +1,49 @@
+{
+   "version":"2",
+   "templates":[
+      {
+         "type":2,
+         "title":"HRCODE - PROD",
+         "description":"Produkcja hrcode",
+         "note":"komplet - 3 elementy db/php/nginx",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"hrcode/docker-compose-app-prod-v2.yml"
+         },
+         "env":[
+            {
+               "name":"CLIENT",
+               "label":"SUBDOMENA",
+               "description":"nazwa pod która będzie dostępna strefa."
+            }
+         ]
+      },
+      {
+         "type":2,
+         "title":"HRCODE + CRON - PROD",
+         "description":"Produkcja hrcode z uruchomionym cron",
+         "note":"komplet - 4 elementy db/php/nginx/cron",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"hrcode/docker-compose-app-cron-prod-v2.yml"
+         },
+         "env":[
+             {
+               "name":"CLIENT",
+               "label":"SUBDOMENA",
+               "description":"nazwa pod która będzie dostępna strefa."
+            }            
+         ]
+      }
+   ]
+}
