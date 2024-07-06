@@ -62,7 +62,10 @@ services:
         - "traefik.docker.lbswarm=true"
         - "sablier.enable=true"
         - "sablier.group=${CLIENT}"
- 
+      resources:
+        limits:
+          memory: 1G
+
   nginx:
     image: rhsmart/moodle-fpm-nginx:1.23.2
     depends_on: 
