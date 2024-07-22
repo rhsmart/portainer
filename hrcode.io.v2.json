@@ -87,6 +87,93 @@
                "description":"Odbiorca, który dostanie maila o zawieszeniu strefy."
             }            
          ]
-      }
+      },
+      {
+         "type":2,
+         "title":"HRCODE - CUSTOM - CRON",
+         "description":"Scenariusze",
+         "note":"komplet - 4 elementy db/php/nginx/cron",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://e7.pngegg.com/pngimages/656/940/png-clipart-computer-icons-moodle-font-uplay-icon-angle-text-thumbnail.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"docker-compose-app-cron-custom-v2.yml"
+         },
+         "env":[
+            {
+               "name":"CLIENT",
+               "label":"SUBDOMENA",
+               "description":"nazwa pod która będzie dostępna apka."
+            },
+            {
+               "name":"WERSJA",
+               "label":"WERSJA",
+               "description":"nazwa wcześniej eksportowanego obrazu środowiska.",
+               "select": [ 
+                           {
+                             "text": "hrcode-master_01032024",
+                             "value": "hc-master_01032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_08032024",
+                             "value": "hc-master_08032024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_29032024",
+                             "value": "hc-master_29032024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_17042024",
+                             "value": "hc-master_17042024",
+                             "default": false
+                           },
+                          {
+                             "text": "hrcode-master_22042024",
+                             "value": "hc-master_22042024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_08052024",
+                             "value": "hc-master_08052024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_15052024",
+                             "value": "hc-master_15052024",
+                             "default": false
+                           },
+                         {
+                             "text": "hrcode-master_19062024",
+                             "value": "hc-master_19062024",
+                             "default": true
+                           }                  
+                         ]
+            },
+            {
+               "name":"MYSQLHOST",
+               "label":"MySQL Server",
+               "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
+               "select": [
+                           {
+                             "text": "MySQL",
+                             "value": "mysql",
+                             "default": true
+                           }
+                         ]
+            },
+            {
+               "name":"MAIL_TO",
+               "label":"MAIL_TO",
+               "default":"b.gwiazda-alter@smarteducation.pl",
+               "description":"Odbiorca, który dostanie maila o zawieszeniu strefy."
+            }            
+         ]
+      }      
    ]
 }
