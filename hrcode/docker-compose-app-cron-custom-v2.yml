@@ -62,7 +62,10 @@ services:
         - "traefik.docker.lbswarm=true"
         - "sablier.enable=true"
         - "sablier.group=${CLIENT}"
- 
+      resources:
+        limits:
+          memory: 1G
+
   nginx:
     image: rhsmart/moodle-fpm-nginx:1.23.2
     depends_on: 
@@ -101,7 +104,16 @@ services:
         - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
         - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
-        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier@file"
+        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier"
+
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.group=${CLIENT}"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.displayName=${CLIENT}"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.refreshFrequency=30s"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.showDetails=true"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.theme=hrcode"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sablierUrl=http://sablier:10000"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sessionDuration=8h"
+
 
   php-cron:
     image: rhsmart/moodle-php-cron:8.0.28
@@ -130,3 +142,4 @@ services:
         - "sablier.enable=true"
         - "sablier.group=${CLIENT}" 
 
+        
