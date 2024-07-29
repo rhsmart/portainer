@@ -1,0 +1,146 @@
+version: "3.9"
+
+networks:
+  traefik-external:
+    external: true
+
+services:
+  mysql:
+    image: mdsmart/mysql57-custom
+    expose:
+      - "3306"
+    volumes:
+      - /opt-ssd/users/${CLIENT}/mysql:/var/lib/mysql:Z
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CLIENT}12345
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=${CLIENT}
+      - MYSQL_USER=${CLIENT}
+      - MYSQL_PASSWORD=${CLIENT}12345
+      - LANG=pl_PL.UTF-8
+      - TZ=Europe/Warsaw
+      - IMAGE=${WERSJA}
+    healthcheck:
+      disable: true      
+    deploy:
+      placement:
+        constraints: [node.role != manager]    
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
+    
+  php-fpm:
+    image: docker.io/rhsmart/moodle-php-fpm:8.0.28-demo
+    volumes:
+      - type: tmpfs
+        target: /dev/shm    
+      - /opt/users/${CLIENT}/html:/var/www
+      - /opt/users/${CLIENT}/moodle:/var/moodledata
+      - /opt/users/${CLIENT}/mail:/opt/mail
+    tmpfs:
+      - /tmp:size=512M      
+    shm_size: "512M"
+    depends_on:
+      - mysql
+    environment:
+      - CLIENT=${CLIENT}
+      - FTPPASS=ZmienMnie1
+      - DBHOST=${MYSQLHOST}
+      - DBPASS=${CLIENT}12345
+      - DBUSER=${CLIENT}
+      - DBNAME=${CLIENT}
+      - TZ=Europe/Warsaw
+      - IMAGE=${WERSJA}
+      - MAIL_TO=${MAIL_TO}
+    deploy:
+      placement:
+        constraints: [node.role != manager]
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
+      resources:
+        limits:
+          memory: 1G
+ 
+  nginx:
+    image: rhsmart/moodle-fpm-nginx:1.23.2
+    depends_on: 
+      - php-fpm
+    expose:
+      - "80"
+    volumes:
+      - /opt/users/${CLIENT}/html:/var/www:Z
+      - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
+    networks:
+      traefik-external:
+      default:
+    healthcheck:
+      test: curl --fail http://localhost/login/index.php || exit 1
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s      
+    deploy:
+      placement:
+        constraints: [node.role != manager]    
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
+        
+        - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.test.hrcode.io`)"
+        - "traefik.http.routers.${CLIENT}.entrypoints=web"
+        - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
+        
+        - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.test.hrcode.io`)"
+        - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
+        - "traefik.http.routers.${CLIENT}-tls.tls=true"
+        - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
+        - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
+        - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
+        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier"
+
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.group=${CLIENT}"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.displayName=${CLIENT}"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.refreshFrequency=30s"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.showDetails=true"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.theme=hrcode"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sablierUrl=http://sablier:10000"
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sessionDuration=8h"        
+
+  php-cron:
+    image: rhsmart/moodle-php-cron:8.0.28
+    volumes:
+      - type: tmpfs
+        target: /dev/shm    
+      - /opt/users/${CLIENT}/html:/var/www:Z
+      - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
+    tmpfs:
+      - /tmp:size=512M      
+    shm_size: "512M"
+    depends_on:
+      - mysql
+    environment:
+      - DBHOST=${MYSQLHOST}
+      - DBPASS=${CLIENT}12345
+      - DBUSER=${CLIENT}
+      - DBNAME=${CLIENT}
+      - TZ=Europe/Warsaw
+    deploy:
+      placement:
+        constraints: [node.role != manager]    
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.lbswarm=true"
+        - "sablier.enable=true"
+        - "sablier.group=${CLIENT}"
+      resources:
+        limits:
+          memory: 1G      
+
