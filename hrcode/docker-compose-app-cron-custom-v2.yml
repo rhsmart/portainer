@@ -104,7 +104,7 @@ services:
         - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
         - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
-        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress"
+        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier"
 
         - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.group=${CLIENT}"
         - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.displayName=${CLIENT}"
