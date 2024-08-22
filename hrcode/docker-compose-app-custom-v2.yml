@@ -74,7 +74,6 @@ services:
     image: rhsmart/moodle-fpm-nginx:1.23.2
     depends_on: 
       - php-fpm
-
     volumes:
       - /opt/users/${CLIENT}/html:/var/www:Z
       - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
