@@ -1,14 +1,18 @@
 version: "3.9"
 
 networks:
+  default:
   traefik-external:
     external: true
-
+  mysql:
+    attachable: true
+  
 services:
   mysql:
     image: mdsmart/mysql57-custom
-    expose:
-      - "3306"
+    networks:
+      default:
+      mysql:
     volumes:
       - /opt-ssd/users/${CLIENT}/mysql:/var/lib/mysql:Z
     environment:
@@ -42,8 +46,8 @@ services:
     tmpfs:
       - /tmp:size=512M      
     shm_size: "512M"
-    depends_on:
-      - mysql
+    networks:
+      default:    
     environment:
       - CLIENT=${CLIENT}
       - FTPPASS=ZmienMnie1
@@ -65,19 +69,18 @@ services:
       resources:
         limits:
           memory: 1G
-
+ 
   nginx:
     image: rhsmart/moodle-fpm-nginx:1.23.2
     depends_on: 
       - php-fpm
-    expose:
-      - "80"
+
     volumes:
       - /opt/users/${CLIENT}/html:/var/www:Z
       - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
     networks:
-      traefik-external:
       default:
+      traefik-external:
     healthcheck:
       test: curl --fail http://localhost/login/index.php || exit 1
       interval: 10s
@@ -104,14 +107,5 @@ services:
         - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
         - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
-        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier"
-
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.group=${CLIENT}"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.displayName=${CLIENT}"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.refreshFrequency=30s"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.showDetails=true"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.theme=hrcode"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sablierUrl=http://sablier:10000"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sessionDuration=8h"
-
+        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier@file"
 
