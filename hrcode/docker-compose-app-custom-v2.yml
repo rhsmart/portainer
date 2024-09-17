@@ -1,7 +1,6 @@
 version: "3.9"
 
 networks:
-  default:
   traefik-external:
     external: true
   mysql:
@@ -11,7 +10,6 @@ services:
   mysql:
     image: mdsmart/mysql57-custom
     networks:
-      default:
       mysql:
     volumes:
       - /opt-ssd/users/${CLIENT}/mysql:/var/lib/mysql:Z
@@ -47,7 +45,7 @@ services:
       - /tmp:size=512M      
     shm_size: "512M"
     networks:
-      default:    
+      mysql:
     environment:
       - CLIENT=${CLIENT}
       - FTPPASS=ZmienMnie1
@@ -78,7 +76,7 @@ services:
       - /opt/users/${CLIENT}/html:/var/www:Z
       - /opt/users/${CLIENT}/moodle:/var/moodledata:Z
     networks:
-      default:
+      mysql:
       traefik-external:
     healthcheck:
       test: curl --fail http://localhost/login/index.php || exit 1
