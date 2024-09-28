@@ -101,7 +101,6 @@ services:
         - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
         - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
         - "traefik.http.routers.${CLIENT}-tls.tls=true"
-        - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
         - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
         - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
         - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress,${CLIENT}-sablier"
