@@ -103,20 +103,20 @@
                "description":"Czas po którym strefa ulegnie uśpieniu po nieaktywności",
                "select": [
                            {
-                             "text": "8",
+                             "text": "8h",
                              "value": "8",
                              "default": true
                            },
                            {
-                             "text": "6",
+                             "text": "6h",
                              "value": "6"
                            },
                            {
-                             "text": "4",
+                             "text": "4h",
                              "value": "4"
                            },
                            {
-                             "text": "2",
+                             "text": "2h",
                              "value": "2"
                            }
                          ]
