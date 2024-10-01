@@ -96,7 +96,31 @@
                "label":"MAIL_TO",
                "default":"b.gwiazda-alter@smarteducation.pl",
                "description":"Odbiorca, który dostanie maila o zawieszeniu strefy."
-            }            
+            },
+            {
+               "name":"SUSPENDTIME",
+               "label":"UŚPIENIE PO",
+               "description":"Czas po którym strefa ulegnie uśpieniu po nieaktywności",
+               "select": [
+                           {
+                             "text": "8",
+                             "value": "8",
+                             "default": true
+                           },
+                           {
+                             "text": "6",
+                             "value": "6"
+                           },
+                           {
+                             "text": "4",
+                             "value": "4"
+                           },
+                           {
+                             "text": "2",
+                             "value": "2"
+                           }
+                         ]
+            }
          ]
       }      
    ]
