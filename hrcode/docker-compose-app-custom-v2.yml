@@ -111,5 +111,5 @@ services:
         - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.showDetails=true"
         - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.dynamic.theme=hrcode"
         - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sablierUrl=http://sablier:10000"
-        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sessionDuration=8h"        
+        - "traefik.http.middlewares.${CLIENT}-sablier.plugin.sablier.sessionDuration=${SUSPENDTIME}"        
 
