@@ -104,20 +104,20 @@
                "select": [
                            {
                              "text": "8h",
-                             "value": "8",
+                             "value": "8h",
                              "default": true
                            },
                            {
                              "text": "6h",
-                             "value": "6"
+                             "value": "6h"
                            },
                            {
                              "text": "4h",
-                             "value": "4"
+                             "value": "4h"
                            },
                            {
                              "text": "2h",
-                             "value": "2"
+                             "value": "2h"
                            }
                          ]
             }
