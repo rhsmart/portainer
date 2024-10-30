@@ -80,6 +80,11 @@
                              "text": "hrcode-master_02102024",
                              "value": "hc-master_02102024",
                              "default": true
+                           },
+                     {
+                             "text": "hrcode-akademiahrcode_30102024",
+                             "value": "hc-akademiahrcode_30102024",
+                             "default": false
                            }
                   
                          ]
