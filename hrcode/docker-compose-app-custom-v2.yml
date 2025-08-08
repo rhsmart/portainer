@@ -8,7 +8,7 @@ networks:
   
 services:
   mysql:
-    image: mdsmart/mysql57-custom
+    image: rhsmart/mysql-demo:8.0.43
     networks:
       mysql:
     volumes:
