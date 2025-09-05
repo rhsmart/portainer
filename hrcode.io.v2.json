@@ -61,6 +61,11 @@
                              "text": "hrcode-master_13082025",
                              "value": "hc-master_13082025",
                              "default": true
+                      },
+                    {
+                             "text": "hrcode-wizyty_05092025",
+                             "value": "hc-wizyty_05092025",
+                             "default": false
                       }
                   
                          ]
