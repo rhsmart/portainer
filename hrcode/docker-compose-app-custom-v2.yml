@@ -37,7 +37,7 @@ services:
           memory: 2G
     
   php-fpm:
-    image: docker.io/rhsmart/moodle-php-fpm:8.0.28-demo
+    image: docker.io/rhsmart/moodle-php-fpm:${WERSJA_PHP}-demo
     volumes:
       - type: tmpfs
         target: /dev/shm    
