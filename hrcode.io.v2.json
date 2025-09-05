@@ -66,6 +66,23 @@
                          ]
             },
             {
+               "name":"WERSJA_PHP",
+               "label":"WERSJA_PHP",
+               "select": [ 
+                   
+                      {
+                             "text": "8.0.28",
+                             "value": "8.0.28",
+                             "default": true
+                           },
+                          {
+                             "text": "8.1.24",
+                             "value": "8.1.24",
+                             "default": false
+                           }
+                         ]
+            },            
+            {
                "name":"MYSQLHOST",
                "label":"MySQL Server",
                "description":"Adres dedykowanego serwera SQL - jeśli nie wiesz, zostaw domyślny",
