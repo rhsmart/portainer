@@ -28,37 +28,37 @@
                "select": [ 
                    
                       {
-                             "text": "hrcode-master_27082024",
+                             "text": "hrcode-master_27082024-php80",
                              "value": "hc-master_27082024",
                              "default": false
                            },
                           {
-                             "text": "hrcode-master_11092024",
+                             "text": "hrcode-master_11092024-php80",
                              "value": "hc-master_11092024",
                              "default": false
                            },
                           {
-                             "text": "hrcode-master_02102024",
+                             "text": "hrcode-master_02102024-php80",
                              "value": "hc-master_02102024",
                              "default": false
                            },
                      {
-                             "text": "hrcode-akademiahrcode_04112024",
+                             "text": "hrcode-akademiahrcode_04112024-php80",
                              "value": "hc-akademiahrcode_04112024",
                              "default": false
                            },
                    {
-                             "text": "hrcode-master_12112024",
+                             "text": "hrcode-master_12112024-php80",
                              "value": "hc-master_12112024",
                              "default": false
                            },
                            {
-                             "text": "hrcode-master_07022025",
+                             "text": "hrcode-master_07022025-php80",
                              "value": "hc-master_07022025",
                              "default": false
                            },
                       {
-                             "text": "hrcode-master_13082025",
+                             "text": "hrcode-master_13082025-php80",
                              "value": "hc-master_13082025",
                              "default": true
                       },
