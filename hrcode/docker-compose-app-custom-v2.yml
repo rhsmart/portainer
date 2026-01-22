@@ -40,13 +40,13 @@ services:
     image: docker.io/rhsmart/moodle-php-fpm:${WERSJA_PHP}-demo
     volumes:
       - type: tmpfs
-        target: /dev/shm    
+        target: /dev/shm
+        tmpfs:
+           size: 134217728   
       - /opt/users/${CLIENT}/html:/var/www
       - /opt/users/${CLIENT}/moodle:/var/moodledata
       - /opt/users/${CLIENT}/mail:/opt/mail
-    tmpfs:
-      - /tmp:size=512M      
-    shm_size: "512M"
+      - /opt/konfiguracje/php-fpm/fpm-www.conf-02gb:/usr/local/etc/php-fpm.d/www.conf
     networks:
       mysql:
     environment:
