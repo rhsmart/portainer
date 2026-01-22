@@ -69,7 +69,7 @@ services:
         - "sablier.group=${CLIENT}"
       resources:
         limits:
-          memory: 1G
+          memory: 2G
  
   nginx:
     image: rhsmart/moodle-fpm-nginx:1.27.4
