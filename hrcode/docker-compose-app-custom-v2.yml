@@ -30,11 +30,12 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
-        - "sablier.enable=true"
+        - "sablier.enable=false"
         - "sablier.group=${CLIENT}"
       resources:
         limits:
-          memory: 2G
+          cpus: "2"
+          memory: "2G"
     
   php-fpm:
     image: docker.io/rhsmart/moodle-php-fpm:${WERSJA_PHP}-demo
@@ -42,11 +43,10 @@ services:
       - type: tmpfs
         target: /dev/shm
         tmpfs:
-           size: 134217728   
+           size: 134217728 
       - /opt/users/${CLIENT}/html:/var/www
       - /opt/users/${CLIENT}/moodle:/var/moodledata
       - /opt/users/${CLIENT}/mail:/opt/mail
-      - /opt/konfiguracje/php-fpm/fpm-www.conf-02gb:/usr/local/etc/php-fpm.d/www.conf
     networks:
       mysql:
     environment:
@@ -65,14 +65,15 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
-        - "sablier.enable=true"
+        - "sablier.enable=false"
         - "sablier.group=${CLIENT}"
       resources:
         limits:
-          memory: 2G
+          cpus: "2"
+          memory: "2G"
  
   nginx:
-    image: rhsmart/moodle-fpm-nginx:1.27.4
+    image: rhsmart/moodle-fpm-nginx:1.29.5
     depends_on: 
       - php-fpm
     volumes:
@@ -92,11 +93,12 @@ services:
         constraints: [node.role != manager]
       resources:
         limits:
-          memory: 512M        
+          cpus: "2"
+          memory: "512M"
       labels:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
-        - "sablier.enable=true"
+        - "sablier.enable=false"
         - "sablier.group=${CLIENT}"
         
         - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
