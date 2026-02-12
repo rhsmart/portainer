@@ -30,7 +30,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
-        - "sablier.enable=false"
+        - "sablier.enable=true"
         - "sablier.group=${CLIENT}"
       resources:
         limits:
@@ -65,7 +65,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
-        - "sablier.enable=false"
+        - "sablier.enable=true"
         - "sablier.group=${CLIENT}"
       resources:
         limits:
@@ -98,7 +98,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.lbswarm=true"
-        - "sablier.enable=false"
+        - "sablier.enable=true"
         - "sablier.group=${CLIENT}"
         
         - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
