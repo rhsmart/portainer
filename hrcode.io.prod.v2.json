@@ -19,8 +19,45 @@
             {
                "name":"CONFIG",
                "label":"KLIENT",
-               "description":"nazwa pod która będzie dostępna strefa."
-            }
+               "description":"nazwa pod która będzie dostępna strefa"
+            },
+            {
+               "name":"DOMAIN",
+               "label":"DOMENA",
+               "description":"domena pod którą będzie dostępna platforma"
+            },
+            {
+               "name":"PHP_VERSION",
+               "label":"WERSJA PHP",
+               "select": [ 
+                          {
+                             "text": "8.1.24",
+                             "value": "8.1.24",
+                             "default": true
+                          },
+                          {
+                             "text": "8.0.28",
+                             "value": "8.0.28",
+                             "default": false
+                          }
+               ]
+            },
+            {
+               "name":"MYSQL_VERSION",
+               "label":"WERSJA MYSQL",
+               "select": [ 
+                          {
+                             "text": "8.0.39",
+                             "value": "8.0.39",
+                             "default": true
+                          },
+                          {
+                             "text": "5.7.44",
+                             "value": "5.7.44",
+                             "default": false
+                          }
+               ]
+            }            
          ]
       }
    ]
