@@ -63,7 +63,7 @@
       {
          "type":2,
          "title":"HRCODE - PROD - CRON",
-         "description":"Produkcja hrcode",
+         "description":"Produkcja hrcode + kontener cron",
          "note":"komplet - 4 elementy mysql / php-fpm / nginx / php-cron",
          "categories":[
             "MOODLE"
