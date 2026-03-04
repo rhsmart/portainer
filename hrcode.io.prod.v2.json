@@ -3,7 +3,7 @@
    "templates":[
       {
          "type":2,
-         "title":"HRCODE - PROD",
+         "title":"HRCODE-PROD",
          "description":"Produkcja hrcode",
          "note":"komplet - 3 elementy mysql / php-fpm / nginx",
          "categories":[
@@ -62,7 +62,7 @@
       },
       {
          "type":2,
-         "title":"HRCODE - PROD - CRON",
+         "title":"HRCODE-PROD-CRON",
          "description":"Produkcja hrcode + kontener cron",
          "note":"komplet - 4 elementy mysql / php-fpm / nginx / php-cron",
          "categories":[
@@ -73,6 +73,65 @@
          "repository":{
             "url":"https://github.com/rhsmart/portainer",
             "stackfile":"hrcode/docker-compose-app-prod-cron.yml"
+         },
+         "env":[
+            {
+               "name":"CONFIG",
+               "label":"KLIENT",
+               "description":"nazwa pod która będzie dostępna strefa"
+            },
+            {
+               "name":"DOMAIN",
+               "label":"DOMENA",
+               "description":"domena pod którą będzie dostępna platforma"
+            },
+            {
+               "name":"PHP_VERSION",
+               "label":"WERSJA PHP",
+               "select": [ 
+                          {
+                             "text": "8.1.24",
+                             "value": "8.1.24",
+                             "default": true
+                          },
+                          {
+                             "text": "8.0.28",
+                             "value": "8.0.28",
+                             "default": false
+                          }
+               ]
+            },
+            {
+               "name":"MYSQL_VERSION",
+               "label":"WERSJA MYSQL",
+               "select": [ 
+                          {
+                             "text": "8.0.39",
+                             "value": "8.0.39",
+                             "default": true
+                          },
+                          {
+                             "text": "5.7.44",
+                             "value": "5.7.44",
+                             "default": false
+                          }
+               ]
+            }            
+         ]
+      },
+      {
+         "type":2,
+         "title":"HRCODE-PROD-CRON-REDIS",
+         "description":"Produkcja hrcode + kontener cron + kontener redis",
+         "note":"komplet - 5 elementów mysql / php-fpm / nginx / php-cron / redis",
+         "categories":[
+            "MOODLE"
+         ],
+         "platform":"linux",
+         "logo":"https://raw.githubusercontent.com/rhsmart/portainer/main/hrcode/hrcode-logo.png",
+         "repository":{
+            "url":"https://github.com/rhsmart/portainer",
+            "stackfile":"hrcode/docker-compose-app-prod-cron-redis.yml"
          },
          "env":[
             {
