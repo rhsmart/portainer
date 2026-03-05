@@ -1,61 +1,94 @@
-version: "3.9"
-
 services:
-  php-fpm:
-    image: rhsmart/moodle-php-fpm:8.0.28-prod
-    volumes:
-      - /opt/users/${CLIENT}/www:/var/www
-      - /opt/users/${CLIENT}/moodledata:/var/moodledata
-    networks:
-      default:
-  
-  nginx:
-    image: rhsmart/moodle-fpm-nginx:1.23.2
-    volumes:
-      - /opt/users/${CLIENT}/www:/var/www
-      - /opt/users/${CLIENT}/moodledata:/var/moodledata
-    networks:
-      default:
-      traefik-external:
-    deploy:
-      labels:
-        - "traefik.enable=true"
-        - "traefik.docker.lbswarm=true"
-        
-        - "traefik.http.routers.${CLIENT}.rule=Host(`${CLIENT}.app.hrcode.io`)"
-        - "traefik.http.routers.${CLIENT}.entrypoints=web"
-        - "traefik.http.routers.${CLIENT}.middlewares=redirectscheme"
-        
-        - "traefik.http.routers.${CLIENT}-tls.rule=Host(`${CLIENT}.app.hrcode.io`)"
-        - "traefik.http.routers.${CLIENT}-tls.entrypoints=websecure"
-        - "traefik.http.routers.${CLIENT}-tls.service=${CLIENT}-tls"
-        - "traefik.http.routers.${CLIENT}-tls.tls=true"
-        - "traefik.http.routers.${CLIENT}-tls.tls.certresolver=myresolver"
-        - "traefik.http.routers.${CLIENT}-tls.middlewares=${CLIENT}-tls"
-        - "traefik.http.services.${CLIENT}-tls.loadbalancer.server.port=80"
-        - "traefik.http.middlewares.${CLIENT}-tls.chain.middlewares=tls-Header,http-compress"        
-
   mysql:
-    image: mariadb:10
+    image: mysql:${MYSQL_VERSION}
     volumes:
-      - /opt/users/${CLIENT}/mysql:/var/lib/mysql
-      - /opt/users/${CLIENT}/my.cnf:/etc/mysql/conf.d/smart.cnf
-      - /etc/localtime:/etc/localtime:ro
-      - /opt/users/${CLIENT}/dumps:/dumps
+      - /opt/users/${CONFIG}/mysql:/var/lib/mysql
+      - /opt/konfiguracje/mysql/my.cnf-02gb:/etc/my.cnf
+      - /backups/${CONFIG}/mysql:/dumps
     environment:
-      MARIADB_ROOT_PASSWORD: "hasloROOT1"
-      MARIADB_ROOT_HOST: "%"
-      MARIADB_USER: "${CLIENT}"
-      MARIADB_PASSWORD: "aCahdem9chei0wee"
-      MARIADB_DATABASE: "${CLIENT}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "${CONFIG}"
+      MYSQL_USER: "${CONFIG}"
+      MYSQL_PASSWORD: "${CONFIG}12345"
       LANG: "pl_PL.UTF-8"
       TZ: "Europe/Warsaw"
     networks:
       default:
+    deploy:
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: "2"
+          memory: "2G"
+
+  php-fpm:
+    image: rhsmart/moodle-php-fpm:${PHP_VERSION}
+    volumes:
+      - /opt/konfiguracje/php-fpm/fpm-www.conf-02gb:/usr/local/etc/php-fpm.d/www.conf
+      - /opt/users/${CONFIG}/www:/var/www
+      - /opt/users/${CONFIG}/moodledata:/var/moodledata
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+           size: 134217728         
+    networks:
+      default:
+    deploy:
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '2'
+          memory: "2G"
+
+  nginx:
+    image: rhsmart/moodle-fpm-nginx:${NGINX_VERSION}
+    volumes:
+      - /opt/users/${CONFIG}/www:/var/www
+      - /opt/users/${CONFIG}/moodledata:/var/moodledata
+    networks:
+      default:
+      traefik-external:          
+    deploy:
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '2'
+          memory: "512m"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.swarm.lbswarm=true"
+        
+        - "traefik.http.routers.${CONFIG}.rule=Host(`${DOMAIN}`)"
+        - "traefik.http.routers.${CONFIG}.entrypoints=web"
+        - "traefik.http.routers.${CONFIG}.middlewares=redirectscheme@file"
+        
+        - "traefik.http.routers.${CONFIG}-tls.rule=Host(`${DOMAIN}`)"
+        - "traefik.http.routers.${CONFIG}-tls.entrypoints=websecure"
+        - "traefik.http.routers.${CONFIG}-tls.service=${CONFIG}-tls"
+        - "traefik.http.routers.${CONFIG}-tls.tls=true"
+        - "traefik.http.routers.${CONFIG}-tls.middlewares=${CONFIG}-tls"
+        - "traefik.http.routers.${CONFIG}-tls.tls.certresolver=myresolver"
+        - "traefik.http.services.${CONFIG}-tls.loadbalancer.server.port=80"
+        - "traefik.http.middlewares.${CONFIG}-tls.chain.middlewares=tlsHeaders@file,http-compress@file,cors@file"
 
 networks:
   default:
   traefik-external:
-    driver: overlay
-    attachable: true
     external: true
+    
