@@ -52,7 +52,7 @@ services:
           memory: "2G"
 
   nginx:
-    image: rhsmart/moodle-fpm-nginx:${NGINX_VERSION}
+    image: rhsmart/moodle-fpm-nginx:latest
     volumes:
       - /opt/users/${CONFIG}/www:/var/www
       - /opt/users/${CONFIG}/moodledata:/var/moodledata
